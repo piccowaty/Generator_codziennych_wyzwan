@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,96 +11,144 @@
         <h2>Generator codziennych wyzwań</h2>
     </header>
     <main>
+        <!-- Lewy panel – lista wylosowanych i wykonanych -->
         <aside class="lewy_aside"> 
             <div class="do_zrobienia">
                 <p>Wylosowane</p>
-                <ul></ul>
-                <script>
-                    
-                </script>
+                <ul id="lista_wylosowane"></ul>
             </div>
             <div class="wykonane">
                 <p>Wykonane</p>
+                <ul id="lista_wykonane"></ul>
             </div>
         </aside>
+
+        <!-- Sekcja losowania -->
         <section class="losowanie">
             <h3>Wylosuj wyzwanie</h3>
             <button id="losujBtn" onclick="losujWyzwanie()">Losuj!</button>
             <div id="wylosowane" class="wylosowane"></div>
-            <p id="wynik"></p>
         </section>
 
-        <script>
-            function losujWyzwanie() {
-                const wylosowane = document.getElementById('wylosowane');
-                const wynik = document.getElementById('wynik');
-                let ostatniLos = 0; // tutaj zapiszemy numer ostatniego wylosowanego zadania
-                let i = 0;
-                    function blysk(){
-                        wylosowane.style.backgroundColor = 'red';
-                        setTimeout(() => {
-                            wylosowane.style.backgroundColor = 'white';
-                        }, 200);
-                        
-                    }
-                    function animacja() {
-                        if (i < 15) {
-                            const random = Math.floor(Math.random() * zadania.length);
-                            wylosowane.textContent = zadania[random];
-                            ostatniLos = random; // zapisujemy numer
-                            i++;
-                            setTimeout(animacja, 100); // czekamy 150ms i wywołujemy ponownie
-                        }
-                        else{
-                            blysk()
-                        }
-                    }
-                animacja(); // start animacji
-            }
-        </script>
-            <aside class="prawy_aside" id="prawy_aside">
+        <!-- Prawy panel – wszystkie wyzwania -->
+        <aside class="prawy_aside">
             <p>Dostępne wyzwania</p>
             <ul id="lista_wyzwan"></ul>
-
-            <script>
-                // Tablica ze wszystkimi wyzwaniami
-                const zadania = [
-                    "Zrób 10 pompek",
-                    "Napisz komuś miły komentarz",
-                    "Spędź godzinę bez telefonu",
-                    "Przeczytaj 10 stron książki",
-                    "Posprzątaj swój pokój",
-                    "Wykonaj 5 minut medytacji",
-                    "Narysuj coś kreatywnego",
-                    "Zrób smoothie lub zdrowy napój",
-                    "Wyjdź na krótki spacer",
-                    "Napisz plan na jutro",
-                    "Zrób 15 przysiadów",
-                    "Napisz kartkę do przyjaciela",
-                    "Posłuchaj ulubionej muzyki",
-                    "Spróbuj nowego przepisu",
-                    "Odpocznij 20 minut",
-                    "Ułóż puzzle lub grę planszową",
-                    "Zadzwoń do kogoś bliskiego",
-                    "Zrób coś miłego dla rodziny",
-                    "Zapisz 3 rzeczy, za które jesteś wdzięczny",
-                    "Odwiedź miejsce, którego dawno nie widziałeś",
-                    "Wykonaj krótką sesję rozciągania",
-                    "Przeczytaj ciekawy artykuł",
-                    "Zrób zdjęcie czegoś inspirującego",
-                    "Pomóż komuś w domu lub w pracy",
-                    "Ułóż plan na najbliższy weekend"
-                ];
-                const ul = document.getElementById("lista_wyzwan");
-
-                // Tworzymy li dla każdego wyzwania
-                for (let i = 0; i < zadania.length; i++) {
-                    const li = document.createElement('li');
-                    li.textContent = zadania[i];
-                    ul.appendChild(li);
-                }
-            </script>
         </aside>
     </main>
+
+    <script>
+        const zadania = [
+            "Zrób 10 pompek","Napisz komuś miły komentarz","Spędź godzinę bez telefonu",
+            "Przeczytaj 10 stron książki","Posprzątaj swój pokój","Wykonaj 5 minut medytacji",
+            "Narysuj coś kreatywnego","Zrób smoothie lub zdrowy napój","Wyjdź na krótki spacer",
+            "Napisz plan na jutro","Zrób 15 przysiadów","Napisz kartkę do przyjaciela",
+            "Posłuchaj ulubionej muzyki","Spróbuj nowego przepisu","Odpocznij 20 minut",
+            "Ułóż puzzle lub grę planszową","Zadzwoń do kogoś bliskiego","Zrób coś miłego dla rodziny",
+            "Zapisz 3 rzeczy, za które jesteś wdzięczny","Odwiedź miejsce, którego dawno nie widziałeś",
+            "Wykonaj krótką sesję rozciągania","Przeczytaj ciekawy artykuł","Zrób zdjęcie czegoś inspirującego",
+            "Pomóż komuś w domu lub w pracy","Ułóż plan na najbliższy weekend"
+        ];
+
+        const ulZadania = document.getElementById("lista_wyzwan");
+        zadania.forEach(z => {
+            const li = document.createElement('li');
+            li.textContent = z;
+            ulZadania.appendChild(li);
+        });
+
+        function losujWyzwanie() {
+            const wylosowaneElem = document.getElementById('wylosowane');
+            let ostatniLos = 0;
+            let i = 0;
+
+            wylosowaneElem.textContent = "";
+
+            function blysk() {
+                wylosowaneElem.style.backgroundColor = 'red';
+                setTimeout(() => {
+                    wylosowaneElem.style.backgroundColor = '#f0f0f0';
+                }, 200);
+            }
+
+            function zapisDoLocalStorage(numer) {
+                let tablica = JSON.parse(localStorage.getItem('wylosowane')) || [];
+                if (!tablica.includes(numer)) {
+                    tablica.push(numer);
+                    localStorage.setItem('wylosowane', JSON.stringify(tablica));
+                    aktualizujListe();
+                }
+            }
+
+            function animacja() {
+                if (i < 15) {
+                    const random = Math.floor(Math.random() * zadania.length);
+                    wylosowaneElem.textContent = zadania[random];
+                    ostatniLos = random;
+                    i++;
+                    setTimeout(animacja, 100);
+                } else {
+                    blysk();
+                    wylosowaneElem.textContent = zadania[ostatniLos];
+                    zapisDoLocalStorage(ostatniLos);
+                }
+            }
+
+            animacja();
+        }
+
+        function aktualizujListe() {
+            const listaWylosowane = document.getElementById("lista_wylosowane");
+            const listaWykonane = document.getElementById("lista_wykonane");
+
+            listaWylosowane.innerHTML = "";
+            listaWykonane.innerHTML = "";
+
+            let wylosowaneTab = JSON.parse(localStorage.getItem('wylosowane')) || [];
+            let wykonaneTab = JSON.parse(localStorage.getItem('wykonane')) || [];
+
+            // Wylosowane
+            wylosowaneTab.forEach(i => {
+                const li = document.createElement('li');
+                li.textContent = zadania[i];
+
+                // Tworzymy przycisk "Ukończone!" obok li
+                const btn = document.createElement('button');
+                btn.textContent = "Ukończone!";
+                btn.classList.add("przycisk-ukonczone");
+                btn.onclick = function() {
+                    alert("Gratulacje! Wyzwanie wykonane 🎉");
+
+                    let wylosowaneTab = JSON.parse(localStorage.getItem('wylosowane')) || [];
+                    let wykonaneTab = JSON.parse(localStorage.getItem('wykonane')) || [];
+
+                    const index = wylosowaneTab.indexOf(i);
+                    if (index > -1) {
+                        wylosowaneTab.splice(index, 1);
+                        localStorage.setItem('wylosowane', JSON.stringify(wylosowaneTab));
+                    }
+
+                    wykonaneTab.push(i);
+                    localStorage.setItem('wykonane', JSON.stringify(wykonaneTab));
+
+                    aktualizujListe();
+                };
+
+                li.appendChild(btn);
+                listaWylosowane.appendChild(li);
+            });
+
+            // Wykonane
+            wykonaneTab.forEach(i => {
+                const li = document.createElement('li');
+                li.textContent = zadania[i];
+                li.style.color = "green";
+                li.style.textDecoration = "underline";
+                listaWykonane.appendChild(li);
+            });
+        }
+
+        aktualizujListe();
+    </script>
 </body>
 </html>

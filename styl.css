@@ -81,3 +81,31 @@ aside{
 .wylosowane:hover {
     background-color: #e0e0ff;
 }
+.lewy_aside ul{
+    list-style-type: none;
+    text-align: left
+}
+.przycisk-ukonczone {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 5px 15px;
+    font-weight: bold;
+    font-size: 0.9em;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: 0.3s;
+}
+
+.przycisk-ukonczone:hover {
+    background-color: green
+}
+
+/* Wyrównanie przycisku i tekstu w li */
+#lista_wylosowane li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
