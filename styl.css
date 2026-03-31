@@ -1,23 +1,65 @@
 body{
     display: flex;
     flex-direction: column;
+    background-color: #15688f;
 }
 header{
     width: 100%;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150%;
+}
+header h2{
+    width: 80%;
+    background-color: #1fa7d1;
+    padding: 35px;
+    border-radius: 50px;
+    color: #121727;
 }
 main{
     display: flex;
-    flex-direction: row;
+    padding: 15px;
+}
+@media (max-width:800px){
+    main{
+        flex-direction: column;
+    }
+    .losowanie, aside{
+        width: 100%;
+        border-radius: 50px;
+    }
+    .losowanie{
+        margin: 20px 0px;
+    }
+}
+@media (min-width:801px){
+    main{
+        flex-direction: row;
+    }
+    aside{
+        width: 20%;
+    }
+    .losowanie{
+        width: 60%;
+    }
+    .lewy_aside{
+    border-radius: 50px 0px 0px 50px;
+    }
+    .prawy_aside{
+        border-radius: 0px 50px 50px 0px;
+    }
 }
 aside{
-    width: 20%;
     text-align: center;
+    background-color: #1fa7d1;
 }
 .losowanie{
-    width: 60%;
     text-align: center;
+    background-color: #1fa7d1;
+    height: 500px;
 }
-div{
-    height: 200px;
+.losowanie h3{
+    font-size: 150%;
 }
