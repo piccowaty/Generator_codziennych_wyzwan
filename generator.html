@@ -21,7 +21,39 @@
         </aside>
         <section class="losowanie">
             <h3>Wylosuj wyzwanie</h3>
+            <button id="losujBtn" onclick="losujWyzwanie()">Losuj!</button>
+            <div id="wylosowane" class="wylosowane"></div>
+            <p id="wynik"></p>
         </section>
+
+        <script>
+            function losujWyzwanie() {
+                const wylosowane = document.getElementById('wylosowane');
+                const wynik = document.getElementById('wynik');
+                let ostatniLos = 0; // tutaj zapiszemy numer ostatniego wylosowanego zadania
+                let i = 0;
+                    function blysk(){
+                        wylosowane.style.backgroundColor = 'red';
+                        setTimeout(() => {
+                            wylosowane.style.backgroundColor = 'white';
+                        }, 200);
+                        
+                    }
+                    function animacja() {
+                        if (i < 15) {
+                            const random = Math.floor(Math.random() * zadania.length);
+                            wylosowane.textContent = zadania[random];
+                            ostatniLos = random; // zapisujemy numer
+                            i++;
+                            setTimeout(animacja, 100); // czekamy 150ms i wywołujemy ponownie
+                        }
+                        else{
+                            blysk()
+                        }
+                    }
+                animacja(); // start animacji
+            }
+        </script>
             <aside class="prawy_aside" id="prawy_aside">
             <p>Dostępne wyzwania</p>
             <ul id="lista_wyzwan"></ul>
