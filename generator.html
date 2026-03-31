@@ -38,6 +38,7 @@
     </main>
 
     <script>
+        //lista zadan
         const zadania = [
             "Zrób 10 pompek","Napisz komuś miły komentarz","Spędź godzinę bez telefonu",
             "Przeczytaj 10 stron książki","Posprzątaj swój pokój","Wykonaj 5 minut medytacji",
@@ -49,28 +50,28 @@
             "Wykonaj krótką sesję rozciągania","Przeczytaj ciekawy artykuł","Zrób zdjęcie czegoś inspirującego",
             "Pomóż komuś w domu lub w pracy","Ułóż plan na najbliższy weekend"
         ];
-
+        //wyswietlenie listy zadan
         const ulZadania = document.getElementById("lista_wyzwan");
         zadania.forEach(z => {
             const li = document.createElement('li');
             li.textContent = z;
             ulZadania.appendChild(li);
         });
-
+        //funkcja po kliknieciu losuj
         function losujWyzwanie() {
             const wylosowaneElem = document.getElementById('wylosowane');
             let ostatniLos = 0;
             let i = 0;
 
             wylosowaneElem.textContent = "";
-
+            //blysk czerwonego po wylosowaniu
             function blysk() {
                 wylosowaneElem.style.backgroundColor = 'red';
                 setTimeout(() => {
                     wylosowaneElem.style.backgroundColor = '#f0f0f0';
                 }, 200);
             }
-
+            // obsluga list local storage
             function zapisDoLocalStorage(numer) {
                 let tablica = JSON.parse(localStorage.getItem('wylosowane')) || [];
                 if (!tablica.includes(numer)) {
@@ -79,7 +80,7 @@
                     aktualizujListe();
                 }
             }
-
+            //animacja losowania
             function animacja() {
                 if (i < 15) {
                     const random = Math.floor(Math.random() * zadania.length);
@@ -96,7 +97,7 @@
 
             animacja();
         }
-
+        // obsluga list local storage
         function aktualizujListe() {
             const listaWylosowane = document.getElementById("lista_wylosowane");
             const listaWykonane = document.getElementById("lista_wykonane");
@@ -112,10 +113,11 @@
                 const li = document.createElement('li');
                 li.textContent = zadania[i];
 
-                // Tworzymy przycisk "Ukończone!" obok li
+                // stworzenie przycisku "Ukończone!" obok li
                 const btn = document.createElement('button');
                 btn.textContent = "Ukończone!";
                 btn.classList.add("przycisk-ukonczone");
+                //funkcja po kliknieciu ukonczone, przypisanie zadania do drugiej listy
                 btn.onclick = function() {
                     alert("Gratulacje! Wyzwanie wykonane 🎉");
 
