@@ -1,0 +1,23 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+header{
+    width: 100%;
+    text-align: center;
+}
+main{
+    display: flex;
+    flex-direction: row;
+}
+aside{
+    width: 20%;
+    text-align: center;
+}
+.losowanie{
+    width: 60%;
+    text-align: center;
+}
+div{
+    height: 200px;
+}
