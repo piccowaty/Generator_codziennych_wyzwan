@@ -32,6 +32,7 @@ main{
     }
     .losowanie{
         margin: 20px 0px;
+        height: 250px;
     }
 }
 @media (min-width:801px){
