@@ -32,14 +32,18 @@ main {
     padding: 15px;
 }
 
-/* RESPONSYWNOŚĆ */
+.panel {
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
+}
+
 @media(max-width:800px){
     main {
         flex-direction: column;
     }
 }
 
-/* LISTY */
 ul {
     list-style: none;
     padding: 0;
@@ -50,9 +54,24 @@ li {
     margin: 5px 0;
     padding: 8px;
     border-radius: 10px;
+}
+
+/* SPECJALNIE DLA LISTY WYKONANYCH */
+.done {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 8px;
+    color: lightgreen;
+}
+
+/* tylko tekst przekreślony */
+.done .tekst {
+    text-decoration: line-through;
+}
+
+/* checkmark */
+.check {
+    flex-shrink: 0;
 }
 
 /* LOSOWANIE */
@@ -71,10 +90,8 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: 0.3s;
 }
 
-/* EFEKT FLASH */
 .flash {
     background: red !important;
 }
@@ -86,27 +103,17 @@ button {
     padding: 8px 15px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.2s;
 }
 
 .glowny {
     background: #121727;
     color: white;
     padding: 12px 25px;
-    font-size: 1em;
-}
-
-.glowny:hover {
-    transform: scale(1.05);
 }
 
 .ok {
     background: #28a745;
     color: white;
-}
-
-.ok:hover {
-    background: green;
 }
 
 .danger {
@@ -115,12 +122,47 @@ button {
     color: white;
 }
 
-.danger:hover {
-    background: #8a1f2a;
+/* STATYSTYKI */
+.statystyki {
+    margin-top: 20px;
+    background: #ffffff20;
+    padding: 15px;
+    border-radius: 15px;
 }
 
-/* WYKONANE */
-.done {
-    text-decoration: line-through;
-    color: lightgreen;
+/* STOPKA */
+footer {
+    margin-top: 20px;
+    background: #121727;
+    color: white;
+    padding: 20px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.footer-container div {
+    max-width: 250px;
+}
+
+footer h4 {
+    margin-bottom: 10px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer li {
+    background: none;
+    padding: 0;
+}
+
+copyright {
+    text-align: center;
+    margin-top: 15px;
 }

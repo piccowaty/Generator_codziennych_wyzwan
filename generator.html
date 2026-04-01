@@ -33,6 +33,13 @@
         <h3>Wylosuj wyzwanie</h3>
         <button class="glowny" onclick="losujWyzwanie()">Losuj!</button>
         <div id="wylosowane" class="wylosowane"></div>
+
+        <!-- STATYSTYKI -->
+        <div class="statystyki">
+            <h4>📊 Statystyki</h4>
+            <p>🔥 Seria dni: <span id="streak">0</span></p>
+            <p>✅ Wykonane łącznie: <span id="total">0</span></p>
+        </div>
     </section>
 
     <!-- PRAWY PANEL -->
@@ -41,6 +48,32 @@
         <ul id="lista_wyzwan"></ul>
     </aside>
 </main>
+
+<!-- STOPKA -->
+<footer>
+    <div class="footer-container">
+        <div>
+            <h4>🎯 O aplikacji</h4>
+            <p>Generator codziennych wyzwań pomaga budować dobre nawyki i motywację każdego dnia.</p>
+        </div>
+
+        <div>
+            <h4>⚡ Funkcje</h4>
+            <ul>
+                <li>Losowanie wyzwań</li>
+                <li>Śledzenie postępów</li>
+                <li>LocalStorage</li>
+            </ul>
+        </div>
+
+        <div>
+            <h4>📅 Motywacja</h4>
+            <p>„Małe kroki codziennie prowadzą do wielkich zmian.”</p>
+        </div>
+    </div>
+
+    <p class="copyright">© 2026 Generator wyzwań</p>
+</footer>
 
 <script>
 const zadania = [
@@ -59,7 +92,7 @@ const zadania = [
 const ulZadania = document.getElementById("lista_wyzwan");
 zadania.forEach(z => {
     const li = document.createElement('li');
-    li.textContent = z;
+    li.textContent = "📌 " + z;
     ulZadania.appendChild(li);
 });
 
@@ -70,12 +103,10 @@ function losujWyzwanie() {
 
     let wylosowaneTab = JSON.parse(localStorage.getItem('wylosowane')) || [];
 
-    // filtrujemy dostępne zadania (które NIE były jeszcze wylosowane)
     let dostepne = zadania
         .map((z, index) => ({z, index}))
         .filter(el => !wylosowaneTab.includes(el.index));
 
-    // jeśli brak dostępnych
     if (dostepne.length === 0) {
         box.textContent = "🎉 Wszystkie wyzwania zostały już wylosowane!";
         return;
@@ -100,7 +131,7 @@ function losujWyzwanie() {
     animacja();
 }
 
-// zapis do LS
+// zapis
 function zapisz(klucz, index){
     let tab = JSON.parse(localStorage.getItem(klucz)) || [];
     if(!tab.includes(index)){
@@ -110,7 +141,7 @@ function zapisz(klucz, index){
     }
 }
 
-// aktualizacja list
+// lista
 function aktualizujListe(){
     const lw = document.getElementById("lista_wylosowane");
     const lk = document.getElementById("lista_wykonane");
@@ -121,19 +152,30 @@ function aktualizujListe(){
     let wyl = JSON.parse(localStorage.getItem('wylosowane')) || [];
     let wyk = JSON.parse(localStorage.getItem('wykonane')) || [];
 
+    // Wylosowane
     wyl.forEach(i=>{
         const li = document.createElement('li');
-        li.innerHTML = `${zadania[i]} <button class="ok">✔</button>`;
+        li.innerHTML = `
+            <div class="zadanie-box">
+                <span>📌 ${zadania[i]}</span>
+                <button class="ok">Ukończone ✔</button>
+            </div>
+        `;
 
         li.querySelector('button').onclick = ()=>{
             let wyl = JSON.parse(localStorage.getItem('wylosowane')) || [];
             let wyk = JSON.parse(localStorage.getItem('wykonane')) || [];
 
             wyl = wyl.filter(x=>x!==i);
-            wyk.push(i);
+            if(!wyk.includes(i)) wyk.push(i);
 
             localStorage.setItem('wylosowane', JSON.stringify(wyl));
             localStorage.setItem('wykonane', JSON.stringify(wyk));
+
+            zapiszDzien();
+
+            // 🔔 ALERT
+            alert("🎉 Gratulacje! Wyzwanie ukończone!");
 
             aktualizujListe();
         };
@@ -141,18 +183,62 @@ function aktualizujListe(){
         lw.appendChild(li);
     });
 
+    // Wykonane
     wyk.forEach(i=>{
         const li = document.createElement('li');
-        li.textContent = zadania[i];
+        li.innerHTML = `<span class="check">✔️</span> <span class="tekst">${zadania[i]}</span>`;
         li.classList.add("done");
         lk.appendChild(li);
     });
+
+    aktualizujStatystyki();
 }
 
-// czyszczenie danych
+// zapis dnia
+function zapiszDzien(){
+    const dzis = new Date().toDateString();
+    let dni = JSON.parse(localStorage.getItem('dni')) || [];
+
+    if(!dni.includes(dzis)){
+        dni.push(dzis);
+        localStorage.setItem('dni', JSON.stringify(dni));
+    }
+}
+
+// STATYSTYKI
+function aktualizujStatystyki(){
+    let wykonane = JSON.parse(localStorage.getItem('wykonane')) || [];
+    let dni = JSON.parse(localStorage.getItem('dni')) || [];
+
+    document.getElementById("total").textContent = wykonane.length;
+
+    let streak = 0;
+    let today = new Date();
+
+    for(let i = 0; i < 365; i++){
+        let d = new Date();
+        d.setDate(today.getDate() - i);
+
+        if(dni.includes(d.toDateString())){
+            streak++;
+        } else {
+            break;
+        }
+    }
+
+    document.getElementById("streak").textContent = streak;
+}
+
+// reset
 function wyczyscDane(){
     if(confirm("Na pewno chcesz usunąć historię?")){
+        let dni = localStorage.getItem('dni');
+
         localStorage.clear();
+
+        if(dni){
+            localStorage.setItem('dni', dni);
+        }
         aktualizujListe();
     }
 }
