@@ -1,111 +1,126 @@
-body{
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #15688f;
     display: flex;
     flex-direction: column;
-    background-color: #15688f;
 }
-header{
-    width: 100%;
+
+/* HEADER */
+header {
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 150%;
+    padding: 20px;
 }
-header h2{
-    width: 80%;
-    background-color: #1fa7d1;
-    padding: 35px;
-    border-radius: 50px;
+
+header h2 {
+    background: #1fa7d1;
+    padding: 25px;
+    border-radius: 40px;
     color: #121727;
 }
-main{
+
+/* LAYOUT */
+main {
     display: flex;
+    gap: 15px;
     padding: 15px;
 }
-/* obsluga zmiennej szerokosci ekranów */
-@media (max-width:800px){
-    main{
+
+.panel, .losowanie {
+    background: #1fa7d1;
+    border-radius: 30px;
+    padding: 15px;
+}
+
+/* RESPONSYWNOŚĆ */
+@media(max-width:800px){
+    main {
         flex-direction: column;
     }
-    .losowanie, aside{
-        width: 100%;
-        border-radius: 50px;
-    }
-    .losowanie{
-        margin: 20px 0px;
-        height: 250px;
-    }
 }
-@media (min-width:801px){
-    main{
-        flex-direction: row;
-    }
-    aside{
-        width: 20%;
-    }
-    .losowanie{
-        width: 60%;
-    }
-    .lewy_aside{
-    border-radius: 50px 0px 0px 50px;
-    }
-    .prawy_aside{
-        border-radius: 0px 50px 50px 0px;
-    }
+
+/* LISTY */
+ul {
+    list-style: none;
+    padding: 0;
 }
-aside{
+
+li {
+    background: #ffffff20;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LOSOWANIE */
+.losowanie {
+    flex: 1;
     text-align: center;
-    background-color: #1fa7d1;
-}
-.losowanie{
-    text-align: center;
-    background-color: #1fa7d1;
-}
-.losowanie h3{
-    font-size: 150%;
 }
 
 .wylosowane {
-    margin-top: 10px;
-    padding: 15px;
-    background-color: #f0f0f0;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 15px;
+    background: #f0f0f0;
     font-weight: bold;
-    font-size: 1.2em;
-    min-height: 40px;
+    min-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background-color 0.3s;
-}
-
-.wylosowane:hover {
-    background-color: #e0e0ff;
-}
-.lewy_aside ul{
-    list-style-type: none;
-    text-align: left
-}
-.przycisk-ukonczone {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 5px 15px;
-    font-weight: bold;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin-left: 10px;
     transition: 0.3s;
 }
 
-.przycisk-ukonczone:hover {
-    background-color: green
+/* EFEKT FLASH */
+.flash {
+    background: red !important;
 }
-#lista_wylosowane li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
+
+/* PRZYCISKI */
+button {
+    border: none;
+    border-radius: 20px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.glowny {
+    background: #121727;
+    color: white;
+    padding: 12px 25px;
+    font-size: 1em;
+}
+
+.glowny:hover {
+    transform: scale(1.05);
+}
+
+.ok {
+    background: #28a745;
+    color: white;
+}
+
+.ok:hover {
+    background: green;
+}
+
+.danger {
+    margin-top: 10px;
+    background: #b02a37;
+    color: white;
+}
+
+.danger:hover {
+    background: #8a1f2a;
+}
+
+/* WYKONANE */
+.done {
+    text-decoration: line-through;
+    color: lightgreen;
 }
